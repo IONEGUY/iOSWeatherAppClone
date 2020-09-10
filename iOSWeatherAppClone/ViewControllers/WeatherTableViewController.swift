@@ -147,7 +147,7 @@ class WeatherTableViewController: UITableViewController, CLLocationManagerDelega
         hourlyWeather.insert(createSunrizeSunsetModel(sunrise!, .sunrize),
                              at: getIndex(byTime: sunrise!))
         hourlyWeather.insert(createSunrizeSunsetModel(sunset!, .sunset),
-                             at: getIndex(byTime: sunset!) + 1)
+                             at: getIndex(byTime: sunset!))
         
         hourlyWeatherCollectionView.reloadData()
     }

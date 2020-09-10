@@ -12,7 +12,7 @@ struct Strings {
     static let today = "Today"
     static let share = "Share"
     static let hoursFormatWithMinutes = "HH:mm"
-    static let hoursFormat = "hh"
+    static let hoursFormat = "HH"
     static let unit = "metric"
     static let now = "Now"
 }

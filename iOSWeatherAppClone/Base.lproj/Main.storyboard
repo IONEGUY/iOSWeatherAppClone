@@ -78,19 +78,19 @@
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ksk-3e-2Ng">
-                                            <rect key="frame" x="0.0" y="360" width="414" height="1"/>
-                                            <color key="backgroundColor" systemColor="opaqueSeparatorColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <rect key="frame" x="0.0" y="360.5" width="414" height="0.5"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="4TX-XS-t2k"/>
-                                                <constraint firstAttribute="height" constant="1" id="8mo-Sp-rhd"/>
+                                                <constraint firstAttribute="height" constant="0.5" id="4TX-XS-t2k"/>
+                                                <constraint firstAttribute="height" constant="0.5" id="8mo-Sp-rhd"/>
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s5I-Hj-32F">
-                                            <rect key="frame" x="0.0" y="499" width="414" height="1"/>
-                                            <color key="backgroundColor" systemColor="opaqueSeparatorColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <rect key="frame" x="0.0" y="499.5" width="414" height="0.5"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="1" id="RdN-XF-w4O"/>
-                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="SBu-xh-YJP"/>
+                                                <constraint firstAttribute="height" constant="0.5" id="RdN-XF-w4O"/>
+                                                <constraint firstAttribute="height" constant="0.5" id="SBu-xh-YJP"/>
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0xu-gS-KEa">

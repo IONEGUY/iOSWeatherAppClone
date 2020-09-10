@@ -11,6 +11,7 @@ class WeatherTableViewController: UITableViewController, CLLocationManagerDelega
     @IBOutlet weak var minTemperature: UILabel!
     @IBOutlet weak var maxTemperature: UILabel!
     
+    private var locationInitialized = false
     private let dayCellsSpacing: CGFloat = 10
     private let locationManager = CLLocationManager()
     private let errorHandler = AlertErrorMessageHandler()
@@ -37,8 +38,11 @@ class WeatherTableViewController: UITableViewController, CLLocationManagerDelega
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-        getWeather(location)
+        if !locationInitialized {
+            guard let location: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+            getWeather(location)
+            locationInitialized = true
+        }
     }
     
     private func initSelfTableView() {
@@ -75,20 +79,26 @@ class WeatherTableViewController: UITableViewController, CLLocationManagerDelega
     }
     
     private func getWeather(_ location: CLLocationCoordinate2D) {
-        ActivityIndicatorHelper.show(self.view)
+        DispatchQueue.main.async {
+            ActivityIndicatorHelper.show(self.view)
+        }
         WeatherService.shared.getWeather(weatherRequest:
             WeatherRequest(latitude: location.latitude,
                                      longitude: location.longitude,
                                      appid: AppSecrets.appId,
                                      units: Strings.unit))
         { (result) in
-            ActivityIndicatorHelper.hide()
+            DispatchQueue.main.async {
+                 ActivityIndicatorHelper.hide()
+            }
             let weather: Weather?
             switch result {
                 case .success(let success):
                     weather = success
                 case .failure(let error):
-                    self.errorHandler.handle(error.localizedDescription)
+                    DispatchQueue.main.async {
+                        self.errorHandler.handle(error.localizedDescription)
+                    }
                     weather = CashHelper.weather
             }
             DispatchQueue.main.async {

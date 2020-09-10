@@ -27,21 +27,21 @@ class WeatherForDaysTableViewCell: UITableViewCell, UITableViewDataSource, Initi
         dailyWeatherTableView.separatorColor = .clear
         dailyWeatherTableView.register(cellType: DailyWeatherTableViewCell.self)
         
-        dayNames = enumerateDaysFromCurrent()
-        dailyWeather = weather.daily.prefix(7)
+        dayNames = enumerateDaysFromCurrent(daysCount: 6)
+        dailyWeather = weather.daily.prefix(dayNames.count)
         
         dailyWeatherTableView.reloadData()
     }
     
-    private func enumerateDaysFromCurrent() -> [String] {
+    private func enumerateDaysFromCurrent(daysCount: Int) -> [String] {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = Strings.dayNameDateFormat
-        let calendar = Calendar.current
-        let today = calendar.startOfDay(for: Date())
-        let dayOfWeek = calendar.component(.weekday, from: today)
-        let weekdays = calendar.range(of: .weekday, in: .weekOfYear, for: today)!
-        let days = (weekdays.lowerBound ..< weekdays.upperBound)
-            .compactMap { calendar.date(byAdding: .day, value: $0 - dayOfWeek, to: today) }
-        return days.map({ dateFormatter.string(from: $0) })
+        var days = [String]()
+        for dayIndex in 0...daysCount {
+            let day = Calendar.current.date(byAdding: .day, value: dayIndex, to: Date())
+            days.append(dateFormatter.string(from: day!))
+        }
+        
+        return days
     }
 }

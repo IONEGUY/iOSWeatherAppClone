@@ -15,9 +15,9 @@ class WeatherTableViewController: UITableViewController, CLLocationManagerDelega
     private let dayCellsSpacing: CGFloat = 10
     private let locationManager = CLLocationManager()
     private let errorHandler = AlertErrorMessageHandler()
-    private var weather: Weather!
+    private var weather: Weather?
     private var hourlyWeather = [HourlyWeatherCellModel]()
-    private var hourlyWeatherCollectionView: UICollectionView!
+    private var hourlyWeatherCollectionView: UICollectionView?
     private var cells = [WeatherForDaysTableViewCell.self,
                          WeatherSummaryTableViewCell.self,
                          DetailedWeatherInfoTableViewCell.self]
@@ -28,9 +28,9 @@ class WeatherTableViewController: UITableViewController, CLLocationManagerDelega
         initSelfTableView()
         initHorizontalLayoutForHourlyWeatherCollectionView()
         
-        hourlyWeatherCollectionView.dataSource = self
+        hourlyWeatherCollectionView?.dataSource = self
         hourlyWeatherCollectionView?.delegate = self
-        hourlyWeatherCollectionView.register(cellType: HourlyWeatherCell.self)
+        hourlyWeatherCollectionView?.register(cellType: HourlyWeatherCell.self)
                
         initLocationManager()
         
@@ -74,7 +74,7 @@ class WeatherTableViewController: UITableViewController, CLLocationManagerDelega
     
     override func viewWillLayoutSubviews() {
         hourlyWeatherCollectionView?.frame = hourlyWeatherCollectionViewContainer.bounds
-        hourlyWeatherCollectionView.backgroundColor = .clear
+        hourlyWeatherCollectionView?.backgroundColor = .clear
         self.view.layoutIfNeeded()
     }
     
@@ -109,15 +109,16 @@ class WeatherTableViewController: UITableViewController, CLLocationManagerDelega
     
     private func initUI(_ weather: Weather?) {
         guard let weather = weather else { return }
+        let icon = weather.current.weather.first?.icon ?? String.empty
         self.weather = weather
         cityName.text = weather.timezone.components(separatedBy: "/")[1]
-        weatherDescription.text = weather.current.weather.first!.description
+        weatherDescription.text = weather.current.weather.first?.description
         temperature.text = "\(Int(weather.current.temp))\(Strings.celsiusMarker)"
         dayName.text = getCurrentDayName()
-        dayType.text = weather.current.weather.first!.icon.contains("d") ? Strings.day : Strings.night
-        let currentTemp = weather.daily.first!.temp
-        minTemperature.text = "\(Int(currentTemp.min))"
-        maxTemperature.text = "\(Int(currentTemp.max))"
+        dayType.text = icon.contains("d") ? Strings.day : Strings.night
+        let currentTemp = weather.daily.first?.temp
+        minTemperature.text = "\(Int(currentTemp?.min ?? 0))"
+        maxTemperature.text = "\(Int(currentTemp?.max ?? 0))"
         
         initHourlyWeatherCollection()
         
@@ -125,52 +126,45 @@ class WeatherTableViewController: UITableViewController, CLLocationManagerDelega
     }
     
     private func initHourlyWeatherCollection() {
-        hourlyWeather = weather.hourly.prefix(24).map {
+        hourlyWeather = weather?.hourly.prefix(24).map {
             HourlyWeatherCellModel(
-                hour: convertUnitTimeToDateTime($0.unixTime),
+                hour: Date.convertUnitTimeToDateTime($0.unixTime),
                 icon: $0.weather.first?.icon,
                 cellType: .temperature,
                 temperature: "\(String(Int($0.temp)))\(Strings.celsiusMarker)")
-        }
+        } ?? []
         
         hourlyWeather[0].hour = Strings.now
         
         let currentUnixTime = Int64(Date().timeIntervalSince1970)
-        let sunrise = currentUnixTime > weather.current.sunrise!
-            ? weather.daily[1].sunrise
-            : weather.current.sunrise
+        let sunrise = currentUnixTime > weather?.current.sunrise ?? 0
+            ? weather?.daily[1].sunrise
+            : weather?.current.sunrise
         
-        let sunset = currentUnixTime > weather.current.sunset!
-            ? weather.daily[1].sunset
-            : weather.current.sunset
+        let sunset = currentUnixTime > weather?.current.sunset ?? 0
+            ? weather?.daily[1].sunset
+            : weather?.current.sunset
         
-        hourlyWeather.insert(createSunrizeSunsetModel(sunrise!, .sunrize),
-                             at: getIndex(byTime: sunrise!))
-        hourlyWeather.insert(createSunrizeSunsetModel(sunset!, .sunset),
-                             at: getIndex(byTime: sunset!))
+        hourlyWeather.insert(createSunrizeSunsetModel(sunrise, .sunrize),
+                             at: getIndex(byTime: sunrise))
+        hourlyWeather.insert(createSunrizeSunsetModel(sunset, .sunset),
+                             at: getIndex(byTime: sunset))
         
-        hourlyWeatherCollectionView.reloadData()
+        hourlyWeatherCollectionView?.reloadData()
     }
     
-    private func getIndex(byTime time: Int64) -> Int {
-        return weather.hourly.firstIndex(where: { (weatherItem) in
-            weatherItem.unixTime > time
-        })!
+    private func getIndex(byTime time: Int64?) -> Int {
+        return weather?.hourly.firstIndex(where: { (weatherItem) in
+            weatherItem.unixTime > time ?? 0
+        }) ?? 0
     }
     
-    private func createSunrizeSunsetModel(_ time: Int64, _ cellType: HourlyCellType) -> HourlyWeatherCellModel {
+    private func createSunrizeSunsetModel(_ time: Int64?, _ cellType: HourlyCellType) -> HourlyWeatherCellModel {
         return HourlyWeatherCellModel(
-            hour: convertUnitTimeToDateTime(time, withMinutes: true),
+            hour: Date.convertUnitTimeToDateTime(time, withMinutes: true),
             icon: cellType.rawValue,
             cellType: cellType,
             temperature: cellType.rawValue)
-    }
-    
-    private func convertUnitTimeToDateTime(_ unixTime: Int64, withMinutes: Bool = false) -> String {
-        let date = Date(timeIntervalSince1970: TimeInterval(unixTime))
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = withMinutes ? Strings.hoursFormatWithMinutes : Strings.hoursFormat
-        return dateFormatter.string(from: date)
     }
     
     private func getCurrentDayName() -> String {
@@ -191,9 +185,9 @@ class WeatherTableViewController: UITableViewController, CLLocationManagerDelega
         let cell = tableView.dequeueReusableCell(with: cells[indexPath.row], for: indexPath)
         let backgroundView = UIView()
         backgroundView.backgroundColor = UIColor.clear
-        cell.selectedBackgroundView = backgroundView
+        cell?.selectedBackgroundView = backgroundView
         (cell as? Initializable)?.initialize(withData: weather as Any)
-        return cell
+        return cell ?? UITableViewCell()
     }
 }
 
@@ -206,8 +200,8 @@ extension WeatherTableViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(with: HourlyWeatherCell.self, for: indexPath)
         let hourWeather = hourlyWeather[indexPath.item]
 
-        cell.fillData(hourWeather)
-        return cell
+        cell?.fillData(hourWeather)
+        return cell ?? UICollectionViewCell()
     }
 }
 

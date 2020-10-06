@@ -49,6 +49,7 @@
 		FAB69B42250171D100C24AF6 /* DetailedTemperature.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB69B41250171D100C24AF6 /* DetailedTemperature.swift */; };
 		FAB69B442501782900C24AF6 /* DaylyWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB69B432501782900C24AF6 /* DaylyWeather.swift */; };
 		FAB69B4A25019C7800C24AF6 /* HourlyWeatherCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB69B4925019C7800C24AF6 /* HourlyWeatherCellModel.swift */; };
+		FADF64F7252CD36D00BF55AC /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADF64F6252CD36D00BF55AC /* DateExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -96,6 +97,7 @@
 		FAB69B41250171D100C24AF6 /* DetailedTemperature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedTemperature.swift; sourceTree = "<group>"; };
 		FAB69B432501782900C24AF6 /* DaylyWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaylyWeather.swift; sourceTree = "<group>"; };
 		FAB69B4925019C7800C24AF6 /* HourlyWeatherCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyWeatherCellModel.swift; sourceTree = "<group>"; };
+		FADF64F6252CD36D00BF55AC /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,6 +212,7 @@
 				FAB69B2F2501108300C24AF6 /* UITableViewExtensions.swift */,
 				FA015E922502E3BB0098AFDB /* UIImageViewExtensions.swift */,
 				FA9492D0250434B100D0D908 /* UICollectionViewExtensions.swift */,
+				FADF64F6252CD36D00BF55AC /* DateExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -328,6 +331,7 @@
 				FA335F3A2505A77300080CAE /* Direction.swift in Sources */,
 				FAB69B382501186900C24AF6 /* WeatherRequest.swift in Sources */,
 				FA5214FD2507F29E00474FFA /* FixedHeaderTableView.swift in Sources */,
+				FADF64F7252CD36D00BF55AC /* DateExtensions.swift in Sources */,
 				FA9492D1250434B100D0D908 /* UICollectionViewExtensions.swift in Sources */,
 				FAB69B302501108300C24AF6 /* StringExtensions.swift in Sources */,
 				FA291ACF25002AEE006D45EE /* AppDelegate.swift in Sources */,

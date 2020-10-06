@@ -12,7 +12,7 @@ extension UICollectionView {
         cellTypes.forEach { register(cellType: $0, bundle: bundle) }
     }
 
-    func dequeueReusableCell<T: UICollectionViewCell>(with type: T.Type, for indexPath: IndexPath) -> T {
-        return self.dequeueReusableCell(withReuseIdentifier: type.typeName, for: indexPath) as! T
+    func dequeueReusableCell<T: UICollectionViewCell>(with type: T.Type, for indexPath: IndexPath) -> T? {
+        return self.dequeueReusableCell(withReuseIdentifier: type.typeName, for: indexPath) as? T
     }
 }

@@ -10,7 +10,7 @@ class HourlyWeatherCell: UICollectionViewCell {
         temperatureLabel.text = model.temperature
         
         if model.cellType == .temperature {
-             weatherIcon.initWith(url: String(format: ApiConstants.iconsUrl, model.icon!))
+            weatherIcon.initWith(url: String(format: ApiConstants.iconsUrl, model.icon ?? String.empty))
         } else {
             weatherIcon.image = UIImage(named: model.cellType.rawValue)
         }

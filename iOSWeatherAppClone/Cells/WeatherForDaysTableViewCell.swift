@@ -13,11 +13,11 @@ class WeatherForDaysTableViewCell: UITableViewCell, UITableViewDataSource, Initi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(with: DailyWeatherTableViewCell.self, for: indexPath)
         let dayWeather = dailyWeather[indexPath.item]
-        cell.fillData(dayName: dayNames[indexPath.item],
-                      iconName: dayWeather.weather.first!.icon,
+        cell?.fillData(dayName: dayNames[indexPath.item],
+                      iconName: dayWeather.weather.first?.icon,
                       minTemp: dayWeather.temp.min,
                       maxTemp: dayWeather.temp.max)
-        return cell
+        return cell ?? UITableViewCell()
     }
     
     func initialize(withData data: Any) {
@@ -38,8 +38,9 @@ class WeatherForDaysTableViewCell: UITableViewCell, UITableViewDataSource, Initi
         dateFormatter.dateFormat = Strings.dayNameDateFormat
         var days = [String]()
         for dayIndex in 0...daysCount {
-            let day = Calendar.current.date(byAdding: .day, value: dayIndex, to: Date())
-            days.append(dateFormatter.string(from: day!))
+            guard let day = Calendar.current.date(byAdding: .day, value: dayIndex, to: Date())
+                else { continue }
+            days.append(dateFormatter.string(from: day))
         }
         
         return days

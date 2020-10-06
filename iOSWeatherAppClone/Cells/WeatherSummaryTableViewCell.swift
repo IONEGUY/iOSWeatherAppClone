@@ -5,9 +5,10 @@ class WeatherSummaryTableViewCell: UITableViewCell, Initializable {
     
     func initialize(withData data: Any) {
         guard let weather = data as? Weather else { return }
-        let currentTemp = weather.daily.first!.temp
-        weatherOverview.text = String(format: Strings.weatherDescriptionPattenr,
-              weather.current.weather.first!.description,
+        guard let currentTemp = weather.daily.first?.temp,
+              let description = weather.current.weather.first?.description
+              else { return }
+        weatherOverview.text = String(format: Strings.weatherDescriptionPattenr, description,
               Int(currentTemp.max),
               Int(currentTemp.min))
     }

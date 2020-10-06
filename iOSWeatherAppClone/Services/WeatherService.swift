@@ -31,6 +31,8 @@ class WeatherService {
             URLQueryItem(name: "appid", value: String(weatherRequest.appid)),
             URLQueryItem(name: "units", value: String(weatherRequest.units)),
         ]
-        return URLRequest(url: components.url!)
+        
+        guard let url = components.url else { return nil }
+        return URLRequest(url: url)
     }
 }
